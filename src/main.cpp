@@ -1,3 +1,4 @@
+#include "lox.h"
 #include "scanner.h"
 #include "token.h"
 
@@ -5,58 +6,59 @@
 #include <fstream>
 #include <iostream>
 #include <iterator>
+#include <string>
 #include <vector>
 
-static bool had_error { false };
+#define LOX_VERSION "0.0.1"
 
-static void report(int line, std::string_view where, std::string_view message) {
-  std::cerr << "[line " << line << "] Error" << where << ": " << message;
-  had_error = true;
-}
-
-static void error(int line, std::string_view message) {
-  report(line, "", message);
-}
-
-static void run(std::string source) {
-  Lox::Scanner scanner { source };
-  std::vector<Lox::Token> tokens { scanner.scan_tokens() };
+static void run(std::string source)
+{
+  Lox::Scanner scanner{source};
+  std::vector<Lox::Token> tokens{scanner.scan_tokens()};
 
   for (const auto& token : tokens) {
     std::cout << token.to_string() << '\n';
   }
 }
 
-static void run_file(std::string path) {
-  std::ifstream inf { path };
+static void run_file(std::string path)
+{
+  std::ifstream inf{path};
   if (!inf) {
     std::cerr << "Invalid script\n";
     std::exit(EXIT_FAILURE);
   }
 
-  std::string source {
+  std::string source{
     std::istreambuf_iterator<char>(inf),
     std::istreambuf_iterator<char>(),
   };
 
   run(std::move(source));
 
-  if (had_error) {
+  if (Lox::Lox::had_error) {
     std::exit(EXIT_FAILURE);
   }
 }
 
-static void run_prompt() {
+static void run_prompt()
+{
+  std::cout << "lox v" << LOX_VERSION << '\n';
+  std::string line{};
   while (true) {
     std::cout << "> ";
-    std::string line {};
-    std::cin >> line;
-    run(std::move(line));
-    had_error = false;
+    if (std::getline(std::cin, line)) {
+      run(std::move(line));
+      Lox::Lox::had_error = false;
+    } else {
+      std::cout << '\n';
+      break;
+    }
   }
 }
 
-int main(int argc, char* argv[]) {
+int main(int argc, char* argv[])
+{
   if (argc > 2) {
     std::cerr << "Usage: lox [script]\n";
     return 1;
