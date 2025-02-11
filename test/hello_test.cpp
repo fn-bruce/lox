@@ -1,5 +1,6 @@
 #include <gtest/gtest.h>
 
-TEST(HelloTest, BasicText) {
+TEST(HelloTest, BasicText)
+{
   ASSERT_TRUE(true);
 }

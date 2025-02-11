@@ -6,7 +6,8 @@
 #include <any>
 #include <string>
 
-namespace Lox {
+namespace Lox
+{
 
 class Token {
 public:
@@ -17,10 +18,10 @@ public:
   std::string literal_to_string() const;
 
 private:
-  TokenType type_ {};
-  std::string lexeme_ {};
-  std::any literal_ {};
-  int line_ {};
+  TokenType type_{};
+  std::string lexeme_{};
+  std::any literal_{};
+  int line_{};
 };
 
 } // namespace Lox
