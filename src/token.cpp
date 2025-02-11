@@ -14,8 +14,7 @@ Lox::Token::Token(
 
 std::string Lox::Token::to_string() const
 {
-  return std::to_string(static_cast<int>(type_)) + " " + lexeme_ + " " +
-         literal_to_string();
+  return get_token_type_name(type_) + " " + lexeme_ + " " + literal_to_string();
 }
 
 std::string Lox::Token::literal_to_string() const

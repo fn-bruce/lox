@@ -1,7 +1,7 @@
 #ifndef LOX_H
 #define LOX_H
 
-#include <string>
+#include <string_view>
 
 namespace Lox
 {
