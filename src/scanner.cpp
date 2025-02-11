@@ -1,7 +1,8 @@
-#include "scanner.h"
-#include "lox.h"
-#include "token.h"
-#include "token_type.h"
+#include "lox/scanner.h"
+#include "lox/lox.h"
+#include "lox/token.h"
+#include "lox/token_type.h"
+
 #include <string>
 
 Lox::Scanner::Scanner(std::string source) : source_{source}

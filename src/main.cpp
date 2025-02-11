@@ -1,6 +1,6 @@
-#include "lox.h"
-#include "scanner.h"
-#include "token.h"
+#include "lox/lox.h"
+#include "lox/scanner.h"
+#include "lox/token.h"
 
 #include <cstdlib>
 #include <fstream>

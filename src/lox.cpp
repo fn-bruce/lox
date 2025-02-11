@@ -1,4 +1,4 @@
-#include "lox.h"
+#include "lox/lox.h"
 #include <iostream>
 
 namespace Lox
@@ -11,7 +11,8 @@ void Lox::Lox::report(
   std::string_view where,
   std::string_view message)
 {
-  std::cerr << "[line " << line << "] Error" << where << ": " << message;
+  std::cerr << "[line " << line << "] Error" << where << ": " << message
+            << '\n';
   had_error = true;
 }
 

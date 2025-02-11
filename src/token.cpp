@@ -1,5 +1,5 @@
-#include "token.h"
-#include "token_type.h"
+#include "lox/token.h"
+#include "lox/token_type.h"
 
 namespace
 {}
