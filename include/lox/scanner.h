@@ -17,7 +17,7 @@ public:
 private:
   static std::unordered_map<std::string_view, TokenType> keywords;
 
-  std::string source_;
+  std::string source_{};
   std::vector<Token> tokens_{};
 
   int start_{0};

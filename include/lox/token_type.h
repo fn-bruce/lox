@@ -56,8 +56,8 @@ enum class TokenType {
   Eof
 };
 
-inline std::string get_token_type_name(TokenType type) {
-  static const std::unordered_map<TokenType, std::string> tokenNames =
+inline std::string get_token_type_name(const TokenType& type) {
+  static const std::unordered_map<TokenType, std::string> token_names =
     {{TokenType::LeftParen, "LeftParen"},
      {TokenType::RightParen, "RightParen"},
      {TokenType::LeftBrace, "LeftBrace"},
@@ -98,13 +98,13 @@ inline std::string get_token_type_name(TokenType type) {
      {TokenType::While, "While"},
      {TokenType::Eof, "Eof"}};
 
-  if (auto it = tokenNames.find(type); it != tokenNames.end()) {
+  if (auto it = token_names.find(type); it != token_names.end()) {
     return it->second;
   }
   return "UnknownToken";
 }
 
-inline std::ostream& operator<<(std::ostream& os, TokenType type) {
+inline std::ostream& operator<<(std::ostream& os, const TokenType& type) {
   return os << get_token_type_name(type);
 }
 
