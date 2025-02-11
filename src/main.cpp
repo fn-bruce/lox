@@ -1,6 +1,11 @@
+#include "scanner.h"
+#include "token.h"
+
+#include <cstdlib>
 #include <fstream>
 #include <iostream>
 #include <iterator>
+#include <vector>
 
 static bool had_error { false };
 
@@ -13,13 +18,20 @@ static void error(int line, std::string_view message) {
   report(line, "", message);
 }
 
-static void run(std::string source) {}
+static void run(std::string source) {
+  Lox::Scanner scanner { source };
+  std::vector<Lox::Token> tokens { scanner.scan_tokens() };
+
+  for (const auto& token : tokens) {
+    std::cout << token.to_string() << '\n';
+  }
+}
 
 static void run_file(std::string path) {
   std::ifstream inf { path };
   if (!inf) {
     std::cerr << "Invalid script\n";
-    return;
+    std::exit(EXIT_FAILURE);
   }
 
   std::string source {
@@ -28,6 +40,10 @@ static void run_file(std::string path) {
   };
 
   run(std::move(source));
+
+  if (had_error) {
+    std::exit(EXIT_FAILURE);
+  }
 }
 
 static void run_prompt() {
@@ -36,6 +52,7 @@ static void run_prompt() {
     std::string line {};
     std::cin >> line;
     run(std::move(line));
+    had_error = false;
   }
 }
 
@@ -48,5 +65,5 @@ int main(int argc, char* argv[]) {
   } else {
     run_prompt();
   }
-  return 0;
+  return EXIT_SUCCESS;
 }

@@ -10,6 +10,8 @@ target_include_directories(lox
 target_sources(lox
   PUBLIC
     lox.cpp
+    token.cpp
+    scanner.cpp
 )
 
 add_executable(lox_repl)
