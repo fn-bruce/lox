@@ -3,8 +3,8 @@
 
 #include <ostream>
 #include <unordered_map>
-namespace Lox
-{
+
+namespace Lox {
 
 enum class TokenType {
   // Single-character tokens.
@@ -56,8 +56,7 @@ enum class TokenType {
   Eof
 };
 
-inline std::string get_token_type_name(TokenType type)
-{
+inline std::string get_token_type_name(TokenType type) {
   static const std::unordered_map<TokenType, std::string> tokenNames =
     {{TokenType::LeftParen, "LeftParen"},
      {TokenType::RightParen, "RightParen"},
@@ -105,8 +104,7 @@ inline std::string get_token_type_name(TokenType type)
   return "UnknownToken";
 }
 
-inline std::ostream& operator<<(std::ostream& os, TokenType type)
-{
+inline std::ostream& operator<<(std::ostream& os, TokenType type) {
   return os << get_token_type_name(type);
 }
 

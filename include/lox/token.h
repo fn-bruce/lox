@@ -6,8 +6,7 @@
 #include <any>
 #include <string>
 
-namespace Lox
-{
+namespace Lox {
 
 class Token {
 public:

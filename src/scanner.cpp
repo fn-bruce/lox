@@ -5,11 +5,12 @@
 
 #include <string>
 
-Lox::Scanner::Scanner(std::string source) : source_{source}
-{}
+namespace Lox {
 
-std::vector<Lox::Token> Lox::Scanner::scan_tokens()
-{
+Scanner::Scanner(std::string source) : source_{source} {
+}
+
+std::vector<Token> Scanner::scan_tokens() {
   while (!is_at_end()) {
     start_ = current_;
     scan_token();
@@ -19,7 +20,7 @@ std::vector<Lox::Token> Lox::Scanner::scan_tokens()
   return tokens_;
 }
 
-std::unordered_map<std::string_view, Lox::TokenType> Lox::Scanner::keywords{
+std::unordered_map<std::string_view, TokenType> Scanner::keywords{
   {"and", TokenType::And},
   {"class", TokenType::Class},
   {"else", TokenType::Else},
@@ -38,8 +39,7 @@ std::unordered_map<std::string_view, Lox::TokenType> Lox::Scanner::keywords{
   {"while", TokenType::While},
 };
 
-void Lox::Scanner::scan_token()
-{
+void Scanner::scan_token() {
   char c = advance();
   switch (c) {
   case '(':
@@ -121,24 +121,20 @@ void Lox::Scanner::scan_token()
   }
 }
 
-char Lox::Scanner::advance()
-{
+char Scanner::advance() {
   return source_[current_++];
 }
 
-void Lox::Scanner::add_token(TokenType type)
-{
+void Scanner::add_token(TokenType type) {
   add_token(type, nullptr);
 }
 
-void Lox::Scanner::add_token(TokenType type, std::any literal)
-{
+void Scanner::add_token(TokenType type, std::any literal) {
   std::string text = source_.substr(start_, current_ - start_);
   tokens_.emplace_back(type, text, literal, line_);
 }
 
-bool Lox::Scanner::match(char expected)
-{
+bool Scanner::match(char expected) {
   if (is_at_end()) {
     return false;
   }
@@ -150,8 +146,7 @@ bool Lox::Scanner::match(char expected)
   return true;
 }
 
-void Lox::Scanner::identifier()
-{
+void Scanner::identifier() {
   while (is_alpha_numeric(peek())) {
     advance();
   }
@@ -164,8 +159,7 @@ void Lox::Scanner::identifier()
   }
 }
 
-void Lox::Scanner::string()
-{
+void Scanner::string() {
   while (peek() != '"' && !is_at_end()) {
     if (peek() == '\n') {
       line_++;
@@ -186,8 +180,7 @@ void Lox::Scanner::string()
   add_token(TokenType::String, value);
 }
 
-void Lox::Scanner::number()
-{
+void Scanner::number() {
   while (is_digit(peek())) {
     advance();
   }
@@ -204,38 +197,34 @@ void Lox::Scanner::number()
     TokenType::Number, std::stod(source_.substr(start_, current_ - start_)));
 }
 
-char Lox::Scanner::peek() const
-{
+char Scanner::peek() const {
   if (is_at_end()) {
     return '\0';
   }
   return source_[current_];
 }
 
-char Lox::Scanner::peek_next() const
-{
+char Scanner::peek_next() const {
   if (current_ + 1 >= static_cast<int>(source_.length())) {
     return '\0';
   }
   return source_[current_ + 1];
 }
 
-bool Lox::Scanner::is_at_end() const
-{
+bool Scanner::is_at_end() const {
   return current_ >= static_cast<int>(source_.size());
 }
 
-bool Lox::Scanner::is_digit(char c) const
-{
+bool Scanner::is_digit(char c) const {
   return c >= '0' && c <= '9';
 }
 
-bool Lox::Scanner::is_alpha(char c) const
-{
+bool Scanner::is_alpha(char c) const {
   return (c >= 'a' && c <= 'z') || (c >= 'A' && c <= 'Z') || c == '_';
 }
 
-bool Lox::Scanner::is_alpha_numeric(char c) const
-{
+bool Scanner::is_alpha_numeric(char c) const {
   return is_alpha(c) || is_digit(c);
+}
+
 }

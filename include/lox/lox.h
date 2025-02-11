@@ -3,8 +3,7 @@
 
 #include <string_view>
 
-namespace Lox
-{
+namespace Lox {
 
 class Lox {
 public:

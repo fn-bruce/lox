@@ -7,8 +7,7 @@
 #include <unordered_map>
 #include <vector>
 
-namespace Lox
-{
+namespace Lox {
 
 class Scanner {
 public:

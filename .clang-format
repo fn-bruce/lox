@@ -22,10 +22,10 @@ BraceWrapping:
   AfterClass: false
   AfterControlStatement: Never
   AfterEnum: false
-  AfterFunction: true
-  AfterNamespace: true
+  AfterFunction: false
+  AfterNamespace: false
   AfterStruct: false
-  AfterUnion: true
+  AfterUnion: false
   AfterExternBlock: true
   BeforeCatch: false
   BeforeElse: false
@@ -40,7 +40,7 @@ BreakInheritanceList: AfterColon
 BreakStringLiterals: true
 ColumnLimit: 80
 ConstructorInitializerAllOnOneLineOrOnePerLine: true
-ConstructorInitializerIndentWidth: 4
+ConstructorInitializerIndentWidth: 2
 ContinuationIndentWidth: 2
 Cpp11BracedListStyle: true
 DerivePointerAlignment: false
