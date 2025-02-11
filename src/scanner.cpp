@@ -16,7 +16,7 @@ std::vector<Token> Scanner::scan_tokens() {
     scan_token();
   }
 
-  tokens_.emplace_back(TokenType::Eof, "", nullptr, line_);
+  tokens_.emplace_back(TokenType::Eof, "", std::any{}, line_);
   return tokens_;
 }
 
@@ -126,7 +126,7 @@ char Scanner::advance() {
 }
 
 void Scanner::add_token(TokenType type) {
-  add_token(type, nullptr);
+  add_token(type, std::any{});
 }
 
 void Scanner::add_token(TokenType type, std::any literal) {
