@@ -1,6 +1,6 @@
 Language: Cpp
 AccessModifierOffset: -2
-AlignAfterOpenBracket: AlwaysBreak
+AlignAfterOpenBracket: DontAlign
 AlignConsecutiveAssignments: None
 AlignConsecutiveDeclarations: None
 AlignEscapedNewlines: Left
@@ -42,7 +42,7 @@ ColumnLimit: 80
 ConstructorInitializerAllOnOneLineOrOnePerLine: true
 ConstructorInitializerIndentWidth: 2
 ContinuationIndentWidth: 2
-Cpp11BracedListStyle: true
+Cpp11BracedListStyle: false
 DerivePointerAlignment: false
 FixNamespaceComments: false
 IncludeBlocks: Preserve
@@ -66,6 +66,7 @@ SpaceBeforeAssignmentOperators: true
 SpaceBeforeParens: ControlStatements
 SpaceBeforeRangeBasedForLoopColon: true
 SpaceInEmptyParentheses: false
+SpaceInEmptyBlock: true
 SpacesBeforeTrailingComments: 1
 SpacesInAngles: Never
 SpacesInCStyleCastParentheses: false
