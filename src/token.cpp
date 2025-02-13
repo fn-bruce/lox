@@ -3,8 +3,14 @@
 
 namespace Lox {
 
-Token::Token(TokenType type, std::string lexeme, std::any literal, int line) :
-  type_{type}, lexeme_{lexeme}, literal_{literal}, line_{line} {
+Token::Token(TokenType type,
+  std::string lexeme,
+  std::variant<std::monostate, double, std::string> literal,
+  int line) :
+  type_{ type },
+  lexeme_{ lexeme },
+  literal_{ std::move(literal) },
+  line_{ line } {
 }
 
 std::string Token::to_string() const {
@@ -14,9 +20,9 @@ std::string Token::to_string() const {
 std::string Token::literal_to_string() const {
   switch (type_) {
   case TokenType::String:
-    return std::any_cast<std::string>(literal_);
+    return std::get<std::string>(literal_);
   case TokenType::Number:
-    return std::to_string(std::any_cast<double>(literal_));
+    return std::to_string(std::get<double>(literal_));
   default:
     return "";
   }

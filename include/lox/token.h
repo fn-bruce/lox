@@ -3,14 +3,17 @@
 
 #include "token_type.h"
 
-#include <any>
 #include <string>
+#include <variant>
 
 namespace Lox {
 
 class Token {
 public:
-  Token(TokenType type, std::string lexeme, std::any literal, int line);
+  Token(TokenType type,
+    std::string lexeme,
+    std::variant<std::monostate, double, std::string> literal,
+    int line);
 
   std::string to_string() const;
 
@@ -19,7 +22,7 @@ public:
 private:
   TokenType type_{};
   std::string lexeme_{};
-  std::any literal_{};
+  std::variant<std::monostate, double, std::string> literal_{};
   int line_{};
 };
 

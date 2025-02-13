@@ -4,10 +4,11 @@
 #include "lox/token_type.h"
 
 #include <string>
+#include <variant>
 
 namespace Lox {
 
-Scanner::Scanner(std::string source) : source_{source} {
+Scanner::Scanner(std::string source) : source_{ source } {
 }
 
 std::vector<Token> Scanner::scan_tokens() {
@@ -16,27 +17,27 @@ std::vector<Token> Scanner::scan_tokens() {
     scan_token();
   }
 
-  tokens_.emplace_back(TokenType::Eof, "", std::any{}, line_);
+  tokens_.emplace_back(TokenType::Eof, "", std::monostate{}, line_);
   return tokens_;
 }
 
 std::unordered_map<std::string_view, TokenType> Scanner::keywords{
-  {"and", TokenType::And},
-  {"class", TokenType::Class},
-  {"else", TokenType::Else},
-  {"false", TokenType::False},
-  {"for", TokenType::For},
-  {"fun", TokenType::Fun},
-  {"if", TokenType::If},
-  {"nil", TokenType::Nil},
-  {"or", TokenType::Or},
-  {"print", TokenType::Print},
-  {"return", TokenType::Return},
-  {"super", TokenType::Super},
-  {"this", TokenType::This},
-  {"true", TokenType::True},
-  {"var", TokenType::Var},
-  {"while", TokenType::While},
+  { "and", TokenType::And },
+  { "class", TokenType::Class },
+  { "else", TokenType::Else },
+  { "false", TokenType::False },
+  { "for", TokenType::For },
+  { "fun", TokenType::Fun },
+  { "if", TokenType::If },
+  { "nil", TokenType::Nil },
+  { "or", TokenType::Or },
+  { "print", TokenType::Print },
+  { "return", TokenType::Return },
+  { "super", TokenType::Super },
+  { "this", TokenType::This },
+  { "true", TokenType::True },
+  { "var", TokenType::Var },
+  { "while", TokenType::While },
 };
 
 void Scanner::scan_token() {
@@ -126,10 +127,11 @@ char Scanner::advance() {
 }
 
 void Scanner::add_token(TokenType type) {
-  add_token(type, std::any{});
+  add_token(type, std::monostate{});
 }
 
-void Scanner::add_token(TokenType type, std::any literal) {
+void Scanner::add_token(TokenType type,
+  std::variant<std::monostate, double, std::string> literal) {
   std::string text = source_.substr(start_, current_ - start_);
   tokens_.emplace_back(type, text, literal, line_);
 }
@@ -151,8 +153,8 @@ void Scanner::identifier() {
     advance();
   }
 
-  const auto text{source_.substr(start_, current_ - start_)};
-  if (const auto it{keywords.find(text)}; it != keywords.end()) {
+  const auto text{ source_.substr(start_, current_ - start_) };
+  if (const auto it{ keywords.find(text) }; it != keywords.end()) {
     add_token(it->second);
   } else {
     add_token(TokenType::Identifier);
@@ -176,7 +178,7 @@ void Scanner::string() {
   advance();
 
   // Trim the surrounding quotes.
-  std::string value = source_.substr(start_ + 1, current_ - start_ - 1);
+  std::string value = source_.substr(start_ + 1, current_ - start_ - 2);
   add_token(TokenType::String, value);
 }
 

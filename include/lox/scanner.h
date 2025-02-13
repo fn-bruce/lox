@@ -5,6 +5,7 @@
 
 #include <string>
 #include <unordered_map>
+#include <variant>
 #include <vector>
 
 namespace Lox {
@@ -20,14 +21,15 @@ private:
   std::string source_{};
   std::vector<Token> tokens_{};
 
-  int start_{0};
-  int current_{0};
-  int line_{1};
+  int start_{ 0 };
+  int current_{ 0 };
+  int line_{ 1 };
 
   void scan_token();
   char advance();
   void add_token(TokenType type);
-  void add_token(TokenType type, std::any literal);
+  void add_token(TokenType type,
+    std::variant<std::monostate, double, std::string> literal);
   bool match(char expected);
   void identifier();
   void string();
