@@ -3,16 +3,17 @@
 
 #include "lox/expr/expr.h"
 
-#include <any>
+#include <string>
+#include <variant>
 
 namespace Lox {
 
 class Literal : Expr {
 public:
-  Literal(std::any value);
+  Literal(std::variant<std::monostate, double, std::string> value);
 
 private:
-  std::any value_;
+  std::variant<std::monostate, double, std::string> value_;
 };
 
 }

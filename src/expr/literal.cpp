@@ -2,7 +2,8 @@
 
 namespace Lox {
 
-Literal::Literal(std::any value) : value_{value} {
+Literal::Literal(std::variant<std::monostate, double, std::string> value) :
+  value_{ value } {
 }
 
 }
