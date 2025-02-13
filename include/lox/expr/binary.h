@@ -4,16 +4,20 @@
 #include "lox/expr/expr.h"
 #include "lox/token.h"
 
+#include <memory>
+
 namespace Lox {
 
 class Binary : Expr {
 public:
-  Binary(Expr left, Token op, Expr right);
+  Binary(std::unique_ptr<Expr> left, Token op, std::unique_ptr<Expr> right);
+
+  std::any accept(Visitor<std::any>& visitor) const override;
 
 private:
-  Expr left_;
+  std::unique_ptr<Expr> left_;
   Token op_;
-  Expr right_;
+  std::unique_ptr<Expr> right_;
 };
 
 }
