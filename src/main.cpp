@@ -68,9 +68,9 @@ void test_ast_printer() {
   std::shared_ptr<Expr> expr{
     std::make_shared<Binary>(
       std::make_shared<Unary>(
-        std::make_shared<Token>(TokenType::Minus, "-", std::monostate{}, 1),
+        Token{ TokenType::Minus, "-", std::monostate{}, 1 },
         std::make_shared<Literal>(123)),
-      std::make_shared<Token>(TokenType::Star, "*", std::monostate{}, 1),
+      Token{ TokenType::Star, "*", std::monostate{}, 1 },
       std::make_shared<Grouping>(std::make_shared<Literal>(45.67))),
   };
   AstPrinter printer{};

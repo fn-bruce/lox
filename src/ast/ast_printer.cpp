@@ -17,7 +17,7 @@ std::string AstPrinter::print(std::shared_ptr<Expr> expr) {
 std::any AstPrinter::visit(const Binary& expr) {
   std::stringstream os{};
   os << "(";
-  os << expr.op()->lexeme();
+  os << expr.op().lexeme();
   os << " ";
   os << std::any_cast<std::string>(expr.left()->accept(*this));
   os << " ";
@@ -54,7 +54,7 @@ std::any AstPrinter::visit(const Literal& expr) {
 std::any AstPrinter::visit(const Unary& expr) {
   std::stringstream os{};
   os << "(";
-  os << expr.op()->lexeme();
+  os << expr.op().lexeme();
   os << " ";
   os << std::any_cast<std::string>(expr.right()->accept(*this));
   os << ")";

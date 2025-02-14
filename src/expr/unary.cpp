@@ -5,8 +5,8 @@
 
 namespace Lox {
 
-Unary::Unary(std::shared_ptr<Token> op, std::shared_ptr<Expr> right) :
-  op_{ std::move(op) }, right_{ std::move(right) } {
+Unary::Unary(Token op, std::shared_ptr<Expr> right) :
+  op_{ op }, right_{ std::move(right) } {
   assert(right_ != nullptr);
 }
 

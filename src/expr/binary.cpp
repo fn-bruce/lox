@@ -7,11 +7,10 @@
 namespace Lox {
 
 Binary::Binary(std::shared_ptr<Expr> left,
-  std::shared_ptr<Token> op,
+  Token op,
   std::shared_ptr<Expr> right) :
-  left_{ std::move(left) }, op_{ std::move(op) }, right_{ std::move(right) } {
+  left_{ std::move(left) }, op_{ op }, right_{ std::move(right) } {
   assert(left_ != nullptr);
-  assert(op_ != nullptr);
   assert(right_ != nullptr);
 }
 
