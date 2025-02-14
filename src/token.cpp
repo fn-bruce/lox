@@ -3,6 +3,13 @@
 
 namespace Lox {
 
+Token::Token(TokenType type, std::string lexeme, int line) :
+  type_{ type },
+  lexeme_{ lexeme },
+  literal_{ std::monostate{} },
+  line_{ line } {
+}
+
 Token::Token(TokenType type,
   std::string lexeme,
   std::variant<std::monostate, double, std::string> literal,

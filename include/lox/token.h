@@ -10,6 +10,8 @@ namespace Lox {
 
 class Token {
 public:
+  Token(TokenType type, std::string lexeme, int line);
+
   Token(TokenType type,
     std::string lexeme,
     std::variant<std::monostate, double, std::string> literal,
