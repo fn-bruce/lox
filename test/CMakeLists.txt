@@ -8,7 +8,7 @@ add_dependencies(check unit_test)
 
 target_sources(unit_test
   PRIVATE
-    hello_test.cpp
+    ast_printer_test.cpp
     main.cpp
 )
 

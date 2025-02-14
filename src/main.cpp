@@ -1,21 +1,13 @@
-#include "lox/ast/ast_printer.h"
-#include "lox/expr/binary.h"
-#include "lox/expr/grouping.h"
-#include "lox/expr/literal.h"
-#include "lox/expr/unary.h"
 #include "lox/lox.h"
 #include "lox/scanner.h"
 #include "lox/token.h"
-#include "lox/token_type.h"
 
 #include <cstdlib>
 #include <fstream>
 #include <ios>
 #include <iostream>
 #include <iterator>
-#include <memory>
 #include <string>
-#include <variant>
 #include <vector>
 
 #define LOX_VERSION "0.0.1"
@@ -61,19 +53,6 @@ static void run_prompt() {
       break;
     }
   }
-}
-
-void test_ast_printer() {
-  using namespace Lox;
-  std::shared_ptr<Expr> expr{
-    std::make_shared<Binary>(
-      std::make_shared<Unary>(
-        Token{ TokenType::Minus, "-", 1 }, std::make_shared<Literal>(123)),
-      Token{ TokenType::Star, "*", 1 },
-      std::make_shared<Grouping>(std::make_shared<Literal>(45.67))),
-  };
-  AstPrinter printer{};
-  std::cout << printer.print(expr) << '\n';
 }
 
 int main(int argc, char* argv[]) {
