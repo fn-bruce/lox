@@ -8,16 +8,22 @@
 
 namespace Lox {
 
-class Binary : Expr {
+class Binary : public Expr {
 public:
-  Binary(std::unique_ptr<Expr> left, Token op, std::unique_ptr<Expr> right);
+  Binary(std::shared_ptr<Expr> left,
+    std::shared_ptr<Token> op,
+    std::shared_ptr<Expr> right);
 
   std::any accept(Visitor<std::any>& visitor) const override;
 
+  std::shared_ptr<Expr> left() const { return left_; }
+  std::shared_ptr<Token> op() const { return op_; }
+  std::shared_ptr<Expr> right() const { return right_; }
+
 private:
-  std::unique_ptr<Expr> left_;
-  Token op_;
-  std::unique_ptr<Expr> right_;
+  std::shared_ptr<Expr> left_{};
+  std::shared_ptr<Token> op_{};
+  std::shared_ptr<Expr> right_{};
 };
 
 }

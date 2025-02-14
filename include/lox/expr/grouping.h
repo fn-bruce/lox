@@ -7,14 +7,16 @@
 
 namespace Lox {
 
-class Grouping : Expr {
+class Grouping : public Expr {
 public:
-  Grouping(std::unique_ptr<Expr> expression);
+  Grouping(std::shared_ptr<Expr> expr);
 
   std::any accept(Visitor<std::any>& visitor) const override;
 
+  std::shared_ptr<Expr> expr() const { return expr_; }
+
 private:
-  std::unique_ptr<Expr> expr_;
+  std::shared_ptr<Expr> expr_;
 };
 
 }

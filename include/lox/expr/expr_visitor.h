@@ -11,10 +11,10 @@ class Unary;
 template<typename R>
 class Visitor {
 public:
-  virtual R visit(const Binary& expr) const = 0;
-  virtual R visit(const Grouping& expr) const = 0;
-  virtual R visit(const Literal& expr) const = 0;
-  virtual R visit(const Unary& expr) const = 0;
+  virtual R visit(const Binary& expr) = 0;
+  virtual R visit(const Grouping& expr) = 0;
+  virtual R visit(const Literal& expr) = 0;
+  virtual R visit(const Unary& expr) = 0;
 };
 
 }

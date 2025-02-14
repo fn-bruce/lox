@@ -7,6 +7,7 @@ target_include_directories(lox
     ${CMAKE_CURRENT_SOURCE_DIR}
 )
 
+add_subdirectory(ast)
 add_subdirectory(expr)
 
 target_sources(lox

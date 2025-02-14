@@ -2,11 +2,15 @@
 #define EXPR_H
 
 #include "lox/expr/expr_visitor.h"
+
 #include <any>
 
 namespace Lox {
 
 class Expr {
+public:
+  virtual ~Expr() = default;
+
   virtual std::any accept(Visitor<std::any>& visitor) const = 0;
 };
 

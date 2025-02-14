@@ -2,7 +2,7 @@
 
 namespace Lox {
 
-Literal::Literal(std::variant<std::monostate, double, std::string>& value) :
+Literal::Literal(std::variant<std::monostate, int, double, std::string> value) :
   value_{ std::move(value) } {
 }
 

@@ -8,15 +8,18 @@
 
 namespace Lox {
 
-class Unary : Expr {
+class Unary : public Expr {
 public:
-  Unary(Token op, std::unique_ptr<Expr> right);
+  Unary(std::shared_ptr<Token> op, std::shared_ptr<Expr> right);
 
   std::any accept(Visitor<std::any>& visitor) const override;
 
+  std::shared_ptr<Token> op() const { return op_; }
+  std::shared_ptr<Expr> right() const { return right_; }
+
 private:
-  Token op_;
-  std::unique_ptr<Expr> right_;
+  std::shared_ptr<Token> op_;
+  std::shared_ptr<Expr> right_;
 };
 
 }

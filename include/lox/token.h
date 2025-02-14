@@ -19,6 +19,8 @@ public:
 
   std::string literal_to_string() const;
 
+  std::string_view lexeme() const { return lexeme_; }
+
 private:
   TokenType type_{};
   std::string lexeme_{};

@@ -1,16 +1,18 @@
 #include "lox/expr/binary.h"
 #include "lox/expr/expr.h"
+
 #include <cassert>
 #include <memory>
 
 namespace Lox {
 
-Binary::Binary(std::unique_ptr<Expr> left,
-  Token op,
-  std::unique_ptr<Expr> right) :
-  left_{ std::move(left) }, op_{ op }, right_{ std::move(right) } {
-  assert(left != nullptr);
-  assert(right != nullptr);
+Binary::Binary(std::shared_ptr<Expr> left,
+  std::shared_ptr<Token> op,
+  std::shared_ptr<Expr> right) :
+  left_{ std::move(left) }, op_{ std::move(op) }, right_{ std::move(right) } {
+  assert(left_ != nullptr);
+  assert(op_ != nullptr);
+  assert(right_ != nullptr);
 }
 
 std::any Binary::accept(Visitor<std::any>& visitor) const {
