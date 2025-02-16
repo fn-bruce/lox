@@ -3,6 +3,7 @@
 #include "lox/token.h"
 #include "lox/token_type.h"
 
+#include <iostream>
 #include <string>
 #include <variant>
 
@@ -86,7 +87,13 @@ void Scanner::scan_token() {
     add_token(match('=') ? TokenType::GreaterEqual : TokenType::Greater);
     break;
   case '/':
-    if (match('/')) {
+    if (match('*')) {
+      while (peek() != '*' && peek_next() != '/' && !is_at_end()) {
+        advance();
+      }
+      advance();
+      advance();
+    } else if (match('/')) {
       // A comment goes until the end of the line.
       while (peek() != '\n' && !is_at_end()) {
         advance();
