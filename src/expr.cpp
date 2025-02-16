@@ -26,7 +26,7 @@ std::any Expr::Grouping::accept(Visitor<std::any>& visitor) const {
 }
 
 Expr::Literal::Literal(
-  std::variant<std::monostate, int, double, std::string> value) :
+  std::variant<std::monostate, int, double, std::string, bool> value) :
   value_{ std::move(value) } {
 }
 

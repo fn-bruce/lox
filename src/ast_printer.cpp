@@ -43,6 +43,9 @@ std::any AstPrinter::visit(const Expr::Literal& expr) {
   if (std::holds_alternative<int>(expr.value())) {
     return std::to_string(std::get<int>(expr.value()));
   }
+  if (std::holds_alternative<bool>(expr.value())) {
+    return std::get<bool>(expr.value()) ? "true" : "false";
+  }
   std::ostringstream os{};
   os << std::get<double>(expr.value());
   return os.str();

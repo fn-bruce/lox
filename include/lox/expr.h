@@ -62,16 +62,16 @@ private:
 
 class Expr::Literal : public Expr {
 public:
-  Literal(std::variant<std::monostate, int, double, std::string> value);
+  Literal(std::variant<std::monostate, int, double, std::string, bool> value);
 
   std::any accept(Visitor<std::any>& visitor) const override;
 
-  std::variant<std::monostate, int, double, std::string> value() const {
+  std::variant<std::monostate, int, double, std::string, bool> value() const {
     return value_;
   }
 
 private:
-  std::variant<std::monostate, int, double, std::string> value_{};
+  std::variant<std::monostate, int, double, std::string, bool> value_{};
 };
 
 class Expr::Unary : public Expr {

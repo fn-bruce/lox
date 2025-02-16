@@ -1,4 +1,6 @@
+#include "lox/ast_printer.h"
 #include "lox/lox.h"
+#include "lox/parser.h"
 #include "lox/scanner.h"
 #include "lox/token.h"
 
@@ -7,6 +9,7 @@
 #include <ios>
 #include <iostream>
 #include <iterator>
+#include <memory>
 #include <string>
 #include <vector>
 
@@ -14,11 +17,16 @@
 
 static void run(std::string source) {
   Lox::Scanner scanner{ source };
-  std::vector<Lox::Token> tokens{ scanner.scan_tokens() };
+  const std::vector<Lox::Token> tokens{ scanner.scan_tokens() };
+  Lox::Parser parser{ tokens };
+  auto expression{ parser.parse() };
 
-  for (const auto& token : tokens) {
-    std::cout << token.to_string() << '\n';
+  if (Lox::Lox::had_error) {
+    return;
   }
+
+  Lox::AstPrinter printer{};
+  std::cout << printer.print(expression) << '\n';
 }
 
 static void run_file(std::string path) {

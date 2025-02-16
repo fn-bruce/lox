@@ -12,7 +12,7 @@ Token::Token(TokenType type, std::string lexeme, int line) :
 
 Token::Token(TokenType type,
   std::string lexeme,
-  std::variant<std::monostate, double, std::string> literal,
+  std::variant<std::monostate, int, double, std::string, bool> literal,
   int line) :
   type_{ type },
   lexeme_{ lexeme },

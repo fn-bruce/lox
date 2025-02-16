@@ -131,7 +131,7 @@ void Scanner::add_token(TokenType type) {
 }
 
 void Scanner::add_token(TokenType type,
-  std::variant<std::monostate, double, std::string> literal) {
+  std::variant<std::monostate, int, double, std::string, bool> literal) {
   std::string text = source_.substr(start_, current_ - start_);
   tokens_.emplace_back(type, text, literal, line_);
 }

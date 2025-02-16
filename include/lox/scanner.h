@@ -29,7 +29,7 @@ private:
   char advance();
   void add_token(TokenType type);
   void add_token(TokenType type,
-    std::variant<std::monostate, double, std::string> literal);
+    std::variant<std::monostate, int, double, std::string, bool> literal);
   bool match(char expected);
   void identifier();
   void string();
