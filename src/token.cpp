@@ -30,6 +30,10 @@ std::string Token::literal_to_string() const {
     return std::get<std::string>(literal_);
   case TokenType::Number:
     return std::to_string(std::get<double>(literal_));
+  case TokenType::True:
+    return "true";
+  case TokenType::False:
+    return "false";
   default:
     return "";
   }

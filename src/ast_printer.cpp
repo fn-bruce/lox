@@ -1,6 +1,7 @@
 #include "lox/ast_printer.h"
 #include "lox/expr.h"
 
+#include <iostream>
 #include <ostream>
 #include <sstream>
 #include <variant>
@@ -44,7 +45,8 @@ std::any AstPrinter::visit(const Expr::Literal& expr) {
     return std::to_string(std::get<int>(expr.value()));
   }
   if (std::holds_alternative<bool>(expr.value())) {
-    return std::get<bool>(expr.value()) ? "true" : "false";
+    return std::get<bool>(expr.value()) ? std::string{ "true" } :
+                                          std::string{ "false" };
   }
   std::ostringstream os{};
   os << std::get<double>(expr.value());
