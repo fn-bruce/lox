@@ -31,7 +31,7 @@ std::shared_ptr<Expr> Parser::expression() {
 std::shared_ptr<Expr> Parser::equality() {
   std::shared_ptr<Expr> expr{ comparison() };
 
-  while (match({ TokenType::BangEqual, TokenType::Equal })) {
+  while (match({ TokenType::BangEqual, TokenType::EqualEqual })) {
     Token op{ previous() };
     std::shared_ptr<Expr> right{ comparison() };
     expr = std::make_shared<Expr::Binary>(expr, op, right);
