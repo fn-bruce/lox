@@ -15,7 +15,7 @@
 
 #define LOX_VERSION "0.0.1"
 
-static void run(std::string source) {
+void run(std::string source) {
   lox::Scanner scanner{ source };
   const std::vector<lox::Token> tokens{ scanner.scan_tokens() };
   lox::Parser parser{ tokens };
@@ -29,7 +29,7 @@ static void run(std::string source) {
   std::cout << printer.print(expression) << '\n';
 }
 
-static void run_file(std::string path) {
+void run_file(std::string path) {
   std::ifstream inf{ path };
   if (!inf) {
     std::cerr << "Invalid script\n";
@@ -48,7 +48,7 @@ static void run_file(std::string path) {
   }
 }
 
-static void run_prompt() {
+void run_prompt() {
   std::cout << "lox v" << LOX_VERSION << '\n';
   std::string line{};
   while (true) {
