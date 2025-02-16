@@ -1,8 +1,5 @@
-#include "lox/ast/ast_printer.h"
-#include "lox/expr/binary.h"
-#include "lox/expr/grouping.h"
-#include "lox/expr/literal.h"
-#include "lox/expr/unary.h"
+#include "lox/ast_printer.h"
+#include "lox/expr.h"
 
 #include <ostream>
 #include <sstream>
@@ -14,7 +11,7 @@ std::string AstPrinter::print(std::shared_ptr<Expr> expr) {
   return std::any_cast<std::string>(expr->accept(*this));
 }
 
-std::any AstPrinter::visit(const Binary& expr) {
+std::any AstPrinter::visit(const Expr::Binary& expr) {
   std::stringstream os{};
   os << "(";
   os << expr.op().lexeme();
@@ -26,7 +23,7 @@ std::any AstPrinter::visit(const Binary& expr) {
   return os.str();
 }
 
-std::any AstPrinter::visit(const Grouping& expr) {
+std::any AstPrinter::visit(const Expr::Grouping& expr) {
   std::stringstream os{};
   os << "(";
   os << "group";
@@ -36,7 +33,7 @@ std::any AstPrinter::visit(const Grouping& expr) {
   return os.str();
 }
 
-std::any AstPrinter::visit(const Literal& expr) {
+std::any AstPrinter::visit(const Expr::Literal& expr) {
   if (std::holds_alternative<std::monostate>(expr.value())) {
     return "nil";
   }
@@ -51,7 +48,7 @@ std::any AstPrinter::visit(const Literal& expr) {
   return os.str();
 }
 
-std::any AstPrinter::visit(const Unary& expr) {
+std::any AstPrinter::visit(const Expr::Unary& expr) {
   std::stringstream os{};
   os << "(";
   os << expr.op().lexeme();

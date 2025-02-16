@@ -1,8 +1,5 @@
-#include "lox/ast/ast_printer.h"
-#include "lox/expr/binary.h"
-#include "lox/expr/grouping.h"
-#include "lox/expr/literal.h"
-#include "lox/expr/unary.h"
+#include "lox/ast_printer.h"
+#include "lox/expr.h"
 
 #include <gtest/gtest.h>
 #include <memory>
@@ -13,11 +10,11 @@ TEST(AstPrinterTest, BasicTest) {
   // arrange
   AstPrinter printer{};
   std::shared_ptr<Expr> expr{
-    std::make_shared<Binary>(
-      std::make_shared<Unary>(
-        Token{ TokenType::Minus, "-", 1 }, std::make_shared<Literal>(123)),
+    std::make_shared<Expr::Binary>(
+      std::make_shared<Expr::Unary>(Token{ TokenType::Minus, "-", 1 },
+        std::make_shared<Expr::Literal>(123)),
       Token{ TokenType::Star, "*", 1 },
-      std::make_shared<Grouping>(std::make_shared<Literal>(45.67))),
+      std::make_shared<Expr::Grouping>(std::make_shared<Expr::Literal>(45.67))),
   };
   std::string expected{ "(* (- 123) (group 45.67))" };
 
