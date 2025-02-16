@@ -6,7 +6,7 @@
 #include <string>
 #include <variant>
 
-namespace Lox {
+namespace lox {
 
 class Token {
 public:

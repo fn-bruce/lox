@@ -5,7 +5,7 @@
 #include <memory>
 
 TEST(AstPrinterTest, BasicTest) {
-  using namespace Lox;
+  using namespace lox;
 
   // arrange
   AstPrinter printer{};

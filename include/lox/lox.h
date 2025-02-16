@@ -5,7 +5,7 @@
 
 #include <string_view>
 
-namespace Lox {
+namespace lox {
 
 class Lox {
 public:

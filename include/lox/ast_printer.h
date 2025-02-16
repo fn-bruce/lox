@@ -6,7 +6,7 @@
 #include <memory>
 #include <string>
 
-namespace Lox {
+namespace lox {
 
 class AstPrinter : public Expr::Visitor<std::any> {
 public:

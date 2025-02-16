@@ -16,16 +16,16 @@
 #define LOX_VERSION "0.0.1"
 
 static void run(std::string source) {
-  Lox::Scanner scanner{ source };
-  const std::vector<Lox::Token> tokens{ scanner.scan_tokens() };
-  Lox::Parser parser{ tokens };
+  lox::Scanner scanner{ source };
+  const std::vector<lox::Token> tokens{ scanner.scan_tokens() };
+  lox::Parser parser{ tokens };
   auto expression{ parser.parse() };
 
-  if (Lox::Lox::had_error) {
+  if (lox::Lox::had_error) {
     return;
   }
 
-  Lox::AstPrinter printer{};
+  lox::AstPrinter printer{};
   std::cout << printer.print(expression) << '\n';
 }
 
@@ -43,7 +43,7 @@ static void run_file(std::string path) {
 
   run(std::move(source));
 
-  if (Lox::Lox::had_error) {
+  if (lox::Lox::had_error) {
     std::exit(EXIT_FAILURE);
   }
 }
@@ -55,7 +55,7 @@ static void run_prompt() {
     std::cout << "> ";
     if (std::getline(std::cin, line)) {
       run(std::move(line));
-      Lox::Lox::had_error = false;
+      lox::Lox::had_error = false;
     } else {
       std::cout << '\n';
       break;

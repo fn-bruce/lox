@@ -5,7 +5,7 @@
 #include <sstream>
 #include <variant>
 
-namespace Lox {
+namespace lox {
 
 std::string AstPrinter::print(std::shared_ptr<Expr> expr) {
   return std::any_cast<std::string>(expr->accept(*this));

@@ -1,7 +1,7 @@
 #include "lox/token.h"
 #include "lox/token_type.h"
 
-namespace Lox {
+namespace lox {
 
 Token::Token(TokenType type, std::string lexeme, int line) :
   type_{ type },

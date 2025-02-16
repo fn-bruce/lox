@@ -2,7 +2,7 @@
 
 #include <cassert>
 
-namespace Lox {
+namespace lox {
 
 Expr::Binary::Binary(std::shared_ptr<Expr> left,
   Token op,

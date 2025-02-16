@@ -6,7 +6,7 @@
 #include <any>
 #include <memory>
 
-namespace Lox {
+namespace lox {
 
 class Expr {
 public:

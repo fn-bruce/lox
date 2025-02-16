@@ -2,7 +2,7 @@
 
 #include <iostream>
 
-namespace Lox {
+namespace lox {
 
 bool Lox::had_error = false;
 

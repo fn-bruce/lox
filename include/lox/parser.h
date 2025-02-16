@@ -8,7 +8,7 @@
 #include <stdexcept>
 #include <vector>
 
-namespace Lox {
+namespace lox {
 
 class Parser {
 public:

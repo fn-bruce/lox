@@ -7,7 +7,7 @@
 #include <memory>
 #include <stdexcept>
 
-using namespace Lox;
+using namespace lox;
 
 Parser::Parser(const std::vector<Token>& tokens) : tokens_{ tokens } {
 }

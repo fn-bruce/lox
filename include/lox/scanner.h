@@ -8,7 +8,7 @@
 #include <variant>
 #include <vector>
 
-namespace Lox {
+namespace lox {
 
 class Scanner {
 public:
