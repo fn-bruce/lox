@@ -25,7 +25,19 @@ Parser::ParseError::ParseError(const std::string& message) :
 }
 
 std::shared_ptr<Expr> Parser::expression() {
-  return equality();
+  return comma();
+}
+
+std::shared_ptr<Expr> Parser::comma() {
+  std::shared_ptr<Expr> expr{ equality() };
+
+  while (match({ TokenType::Comma })) {
+    Token op{ previous() };
+    std::shared_ptr<Expr> right{ equality() };
+    expr = std::make_shared<Expr::Binary>(expr, op, right);
+  }
+
+  return expr;
 }
 
 std::shared_ptr<Expr> Parser::equality() {

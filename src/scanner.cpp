@@ -3,7 +3,6 @@
 #include "lox/token.h"
 #include "lox/token_type.h"
 
-#include <iostream>
 #include <string>
 #include <variant>
 

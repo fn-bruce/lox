@@ -26,6 +26,7 @@ private:
   int current_{ 0 };
 
   std::shared_ptr<Expr> expression();
+  std::shared_ptr<Expr> comma();
   std::shared_ptr<Expr> equality();
   std::shared_ptr<Expr> comparison();
   std::shared_ptr<Expr> term();
