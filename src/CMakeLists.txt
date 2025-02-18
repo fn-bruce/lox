@@ -15,6 +15,8 @@ target_sources(lox
     expr.cpp
     ast_printer.cpp
     parser.cpp
+    interpreter.cpp
+    runtime_error.cpp
 )
 
 add_executable(lox_repl)

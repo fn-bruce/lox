@@ -9,7 +9,6 @@
 #include <ios>
 #include <iostream>
 #include <iterator>
-#include <memory>
 #include <string>
 #include <vector>
 
@@ -25,8 +24,7 @@ void run(std::string source) {
     return;
   }
 
-  lox::AstPrinter printer{};
-  std::cout << printer.print(expression) << '\n';
+  lox::Lox::interpretor.interpret(expression);
 }
 
 void run_file(std::string path) {
@@ -44,7 +42,10 @@ void run_file(std::string path) {
   run(std::move(source));
 
   if (lox::Lox::had_error) {
-    std::exit(EXIT_FAILURE);
+    std::exit(65);
+  }
+  if (lox::Lox::had_runtime_error) {
+    std::exit(70);
   }
 }
 

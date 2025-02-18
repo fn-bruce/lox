@@ -1,10 +1,15 @@
 #include "lox/lox.h"
+#include "lox/interpreter.h"
 
 #include <iostream>
 
 namespace lox {
 
-bool Lox::had_error = false;
+Interpreter Lox::interpretor{};
+
+bool Lox::had_error{};
+
+bool Lox::had_runtime_error{};
 
 void Lox::report(int line, std::string_view where, std::string_view message) {
   std::cerr << "[line " << line << "] Error" << where << ": " << message
@@ -22,6 +27,11 @@ void Lox::error(const Token& token, std::string_view message) {
   } else {
     report(token.line(), " at '" + std::string(token.lexeme()) + "'", message);
   }
+}
+
+void Lox::runtime_error(const RuntimeError& error) {
+  std::cerr << error.what() << "\n[line " << error.token().line() << "]\n";
+  had_runtime_error = true;
 }
 
 }
