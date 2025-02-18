@@ -4,9 +4,12 @@
 #include "lox/token_type.h"
 
 #include <any>
+#include <cmath>
 #include <iostream>
+#include <limits>
 #include <memory>
 #include <sstream>
+#include <stdexcept>
 #include <string>
 #include <variant>
 
@@ -65,9 +68,15 @@ std::any Interpreter::visit(const Expr::Binary& expr) {
 
     throw RuntimeError{ expr.op(),
       "Operands must be two numbers or two strings." };
-  case TokenType::Slash:
+  case TokenType::Slash: {
     check_number_operand(expr.op(), left, right);
-    return std::any_cast<double>(left) / std::any_cast<double>(right);
+    const double lhs{ std::any_cast<double>(left) };
+    const double rhs{ std::any_cast<double>(right) };
+    if (std::fabs(rhs) < std::numeric_limits<double>::epsilon()) {
+      throw RuntimeError{ expr.op(), "Cannot divide by 0." };
+    }
+    return lhs / rhs;
+  }
   case TokenType::Star:
     check_number_operand(expr.op(), left, right);
     return std::any_cast<double>(left) * std::any_cast<double>(right);
