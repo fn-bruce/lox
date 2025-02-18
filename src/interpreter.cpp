@@ -56,6 +56,13 @@ std::any Interpreter::visit(const Expr::Binary& expr) {
              std::any_cast<std::string>(right);
     }
 
+    if (left.type() == typeid(std::string) && right.type() == typeid(double)) {
+      std::ostringstream os{};
+      os << std::any_cast<std::string>(left);
+      os << std::any_cast<double>(right);
+      return os.str();
+    }
+
     throw RuntimeError{ expr.op(),
       "Operands must be two numbers or two strings." };
   case TokenType::Slash:
