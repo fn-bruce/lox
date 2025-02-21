@@ -1,27 +1,50 @@
 #include "lox/parser.h"
 #include "lox/expr.h"
 #include "lox/lox.h"
+#include "lox/stmt.h"
 #include "lox/token.h"
 #include "lox/token_type.h"
 
 #include <memory>
 #include <stdexcept>
+#include <vector>
 
 using namespace lox;
 
 Parser::Parser(const std::vector<Token>& tokens) : tokens_{ tokens } {
 }
 
-std::shared_ptr<Expr> Parser::parse() {
-  try {
-    return expression();
-  } catch (ParseError error) {
-    return nullptr;
+std::vector<std::shared_ptr<Stmt>> Parser::parse() {
+  std::vector<std::shared_ptr<Stmt>> statements{};
+  while (!is_at_end()) {
+    statements.emplace_back(statement());
   }
+
+  return statements;
 }
 
 Parser::ParseError::ParseError(const std::string& message) :
   std::runtime_error{ message } {
+}
+
+std::shared_ptr<Stmt> Parser::statement() {
+  if (match({ TokenType::Print })) {
+    return print_statement();
+  }
+
+  return expression_statement();
+}
+
+std::shared_ptr<Stmt> Parser::print_statement() {
+  std::shared_ptr<Expr> value{ expression() };
+  consume(TokenType::Semicolon, "Expect ';' after value.");
+  return std::make_shared<Stmt::Print>(value);
+}
+
+std::shared_ptr<Stmt> Parser::expression_statement() {
+  std::shared_ptr<Expr> expr{ expression() };
+  consume(TokenType::Semicolon, "Expect ';' after value.");
+  return std::make_shared<Stmt::Expression>(expr);
 }
 
 std::shared_ptr<Expr> Parser::expression() {

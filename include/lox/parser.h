@@ -2,6 +2,7 @@
 #define PARSER_H
 
 #include "lox/expr.h"
+#include "lox/stmt.h"
 #include "lox/token.h"
 
 #include <memory>
@@ -14,7 +15,7 @@ class Parser {
 public:
   Parser(const std::vector<Token>& tokens);
 
-  std::shared_ptr<Expr> parse();
+  std::vector<std::shared_ptr<Stmt>> parse();
 
 private:
   class ParseError : std::runtime_error {
@@ -24,6 +25,10 @@ private:
 
   std::vector<Token> tokens_{};
   int current_{ 0 };
+
+  std::shared_ptr<Stmt> statement();
+  std::shared_ptr<Stmt> print_statement();
+  std::shared_ptr<Stmt> expression_statement();
 
   std::shared_ptr<Expr> expression();
   std::shared_ptr<Expr> comma();

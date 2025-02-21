@@ -2,20 +2,29 @@
 #define INTERPRETER_H
 
 #include "lox/expr.h"
+#include "lox/stmt.h"
+
 #include <memory>
+#include <vector>
 
 namespace lox {
 
-class Interpreter : public Expr::Visitor<std::any> {
+class Interpreter :
+  public Expr::Visitor<std::any>,
+  public Stmt::Visitor<std::any> {
 public:
-  void interpret(std::shared_ptr<Expr> expression);
+  void interpret(std::vector<std::shared_ptr<Stmt>> statements);
 
   std::any visit(const Expr::Binary& expr) override;
   std::any visit(const Expr::Grouping& expr) override;
   std::any visit(const Expr::Literal& expr) override;
   std::any visit(const Expr::Unary& expr) override;
 
+  std::any visit(const Stmt::Expression& stmt) override;
+  std::any visit(const Stmt::Print& stmt) override;
+
 private:
+  void execute(std::shared_ptr<Stmt> stmt);
   std::any evaluate(std::shared_ptr<Expr> expr);
   bool is_truthy(std::any object) const;
   bool is_equal(std::any a, std::any b) const;

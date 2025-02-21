@@ -9,16 +9,16 @@
 #include <limits>
 #include <memory>
 #include <sstream>
-#include <stdexcept>
 #include <string>
 #include <variant>
 
 namespace lox {
 
-void Interpreter::interpret(std::shared_ptr<Expr> expression) {
+void Interpreter::interpret(std::vector<std::shared_ptr<Stmt>> statements) {
   try {
-    std::any value{ evaluate(expression) };
-    std::cout << stringify(value) << '\n';
+    for (const auto statement : statements) {
+      execute(statement);
+    }
   } catch (RuntimeError error) {
     Lox::runtime_error(error);
   }
@@ -126,6 +126,21 @@ std::any Interpreter::visit(const Expr::Unary& expr) {
   }
 
   return right;
+}
+
+std::any Interpreter::visit(const Stmt::Expression& stmt) {
+  evaluate(stmt.expression());
+  return std::monostate{};
+}
+
+std::any Interpreter::visit(const Stmt::Print& stmt) {
+  std::any value{ evaluate(stmt.expression()) };
+  std::cout << stringify(value) << '\n';
+  return std::monostate{};
+}
+
+void Interpreter::execute(std::shared_ptr<Stmt> stmt) {
+  stmt->accept(*this);
 }
 
 std::any Interpreter::evaluate(std::shared_ptr<Expr> expr) {

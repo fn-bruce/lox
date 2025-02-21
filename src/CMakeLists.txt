@@ -13,6 +13,7 @@ target_sources(lox
     token.cpp
     scanner.cpp
     expr.cpp
+    stmt.cpp
     ast_printer.cpp
     parser.cpp
     interpreter.cpp
