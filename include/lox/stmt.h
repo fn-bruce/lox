@@ -17,6 +17,7 @@ public:
 
   class Expression;
   class Print;
+  class Var;
 
   virtual std::any accept(Visitor<std::any>& visitor) const = 0;
 };
@@ -26,6 +27,7 @@ class Stmt::Visitor {
 public:
   virtual R visit(const Stmt::Expression& stmt) = 0;
   virtual R visit(const Stmt::Print& stmt) = 0;
+  virtual R visit(const Stmt::Var& stmt) = 0;
 };
 
 class Stmt::Expression : public Stmt {
@@ -50,6 +52,20 @@ public:
 
 private:
   std::shared_ptr<Expr> expression_{};
+};
+
+class Stmt::Var : public Stmt {
+public:
+  Var(Token name, std::shared_ptr<Expr> initializer);
+
+  std::any accept(Visitor<std::any>& visitor) const override;
+
+  const Token& name() const { return name_; }
+  std::shared_ptr<Expr> initializer() const { return initializer_; }
+
+private:
+  Token name_;
+  std::shared_ptr<Expr> initializer_{};
 };
 
 }

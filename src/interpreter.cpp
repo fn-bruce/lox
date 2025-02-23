@@ -128,6 +128,10 @@ std::any Interpreter::visit(const Expr::Unary& expr) {
   return right;
 }
 
+std::any Interpreter::visit(const Expr::Variable& expr) {
+  return environment_->get(expr.name());
+}
+
 std::any Interpreter::visit(const Stmt::Expression& stmt) {
   evaluate(stmt.expression());
   return std::monostate{};
@@ -136,6 +140,16 @@ std::any Interpreter::visit(const Stmt::Expression& stmt) {
 std::any Interpreter::visit(const Stmt::Print& stmt) {
   std::any value{ evaluate(stmt.expression()) };
   std::cout << stringify(value) << '\n';
+  return std::monostate{};
+}
+
+std::any Interpreter::visit(const Stmt::Var& stmt) {
+  std::any value{};
+  if (stmt.initializer() != nullptr) {
+    value = evaluate(stmt.initializer());
+  }
+
+  environment_->define(std::string(stmt.name().lexeme()), value);
   return std::monostate{};
 }
 

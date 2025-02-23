@@ -17,7 +17,7 @@ Parser::Parser(const std::vector<Token>& tokens) : tokens_{ tokens } {
 std::vector<std::shared_ptr<Stmt>> Parser::parse() {
   std::vector<std::shared_ptr<Stmt>> statements{};
   while (!is_at_end()) {
-    statements.emplace_back(statement());
+    statements.emplace_back(declaration());
   }
 
   return statements;
@@ -25,6 +25,31 @@ std::vector<std::shared_ptr<Stmt>> Parser::parse() {
 
 Parser::ParseError::ParseError(const std::string& message) :
   std::runtime_error{ message } {
+}
+
+std::shared_ptr<Stmt> Parser::declaration() {
+  try {
+    if (match({ TokenType::Var })) {
+      return var_declaration();
+    }
+
+    return statement();
+  } catch (ParseError error) {
+    synchronize();
+    return nullptr;
+  }
+}
+
+std::shared_ptr<Stmt> Parser::var_declaration() {
+  Token name{ consume(TokenType::Identifier, "Expect variable name.") };
+
+  std::shared_ptr<Expr> initializer{};
+  if (match({ TokenType::Equal })) {
+    initializer = expression();
+  }
+
+  consume(TokenType::Semicolon, "Expect ';' after variable declaration.");
+  return std::make_shared<Stmt::Var>(name, initializer);
 }
 
 std::shared_ptr<Stmt> Parser::statement() {
@@ -137,6 +162,10 @@ std::shared_ptr<Expr> Parser::primary() {
 
   if (match({ TokenType::Number, TokenType::String })) {
     return std::make_shared<Expr::Literal>(previous().literal());
+  }
+
+  if (match({ TokenType::Identifier })) {
+    return std::make_shared<Expr::Variable>(previous());
   }
 
   if (match({ TokenType::LeftParen })) {

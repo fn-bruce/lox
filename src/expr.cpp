@@ -43,4 +43,11 @@ std::any Expr::Unary::accept(Visitor<std::any>& visitor) const {
   return visitor.visit(*this);
 }
 
+Expr::Variable::Variable(Token name) : name_{ name } {
+}
+
+std::any Expr::Variable::accept(Visitor<std::any>& visitor) const {
+  return visitor.visit(*this);
+}
+
 }

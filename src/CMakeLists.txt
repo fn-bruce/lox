@@ -14,9 +14,10 @@ target_sources(lox
     scanner.cpp
     expr.cpp
     stmt.cpp
-    ast_printer.cpp
     parser.cpp
+    environment.cpp
     interpreter.cpp
+    ast_printer.cpp
     runtime_error.cpp
 )
 

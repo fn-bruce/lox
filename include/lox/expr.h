@@ -19,6 +19,7 @@ public:
   class Grouping;
   class Literal;
   class Unary;
+  class Variable;
 
   virtual std::any accept(Visitor<std::any>& visitor) const = 0;
 };
@@ -30,6 +31,7 @@ public:
   virtual R visit(const Grouping& expr) = 0;
   virtual R visit(const Literal& expr) = 0;
   virtual R visit(const Unary& expr) = 0;
+  virtual R visit(const Variable& expr) = 0;
 };
 
 class Expr::Binary : public Expr {
@@ -86,6 +88,18 @@ public:
 private:
   Token op_;
   std::shared_ptr<Expr> right_;
+};
+
+class Expr::Variable : public Expr {
+public:
+  Variable(Token name);
+
+  std::any accept(Visitor<std::any>& visitor) const override;
+
+  const Token& name() const { return name_; }
+
+private:
+  Token name_;
 };
 
 }

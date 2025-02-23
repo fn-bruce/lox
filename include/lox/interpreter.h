@@ -1,6 +1,7 @@
 #ifndef INTERPRETER_H
 #define INTERPRETER_H
 
+#include "lox/environment.h"
 #include "lox/expr.h"
 #include "lox/stmt.h"
 
@@ -19,11 +20,15 @@ public:
   std::any visit(const Expr::Grouping& expr) override;
   std::any visit(const Expr::Literal& expr) override;
   std::any visit(const Expr::Unary& expr) override;
+  std::any visit(const Expr::Variable& expr) override;
 
   std::any visit(const Stmt::Expression& stmt) override;
   std::any visit(const Stmt::Print& stmt) override;
+  std::any visit(const Stmt::Var& stmt) override;
 
 private:
+  std::shared_ptr<Environment> environment_{ std::make_shared<Environment>() };
+
   void execute(std::shared_ptr<Stmt> stmt);
   std::any evaluate(std::shared_ptr<Expr> expr);
   bool is_truthy(std::any object) const;

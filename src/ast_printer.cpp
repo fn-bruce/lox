@@ -63,4 +63,12 @@ std::any AstPrinter::visit(const Expr::Unary& expr) {
   return os.str();
 }
 
+std::any AstPrinter::visit(const Expr::Variable& expr) {
+  std::stringstream os{};
+  os << "(";
+  os << expr.name().lexeme();
+  os << ")";
+  return os.str();
+}
+
 }
