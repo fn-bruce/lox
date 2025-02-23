@@ -15,6 +15,8 @@ public:
 
   std::any get(const Token& name) const;
 
+  void assign(const Token& name, std::any value);
+
 private:
   std::unordered_map<std::string, std::any> values_{};
 };

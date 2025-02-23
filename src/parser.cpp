@@ -73,16 +73,22 @@ std::shared_ptr<Stmt> Parser::expression_statement() {
 }
 
 std::shared_ptr<Expr> Parser::expression() {
-  return comma();
+  return assignment();
 }
 
-std::shared_ptr<Expr> Parser::comma() {
+std::shared_ptr<Expr> Parser::assignment() {
   std::shared_ptr<Expr> expr{ equality() };
 
-  while (match({ TokenType::Comma })) {
-    Token op{ previous() };
-    std::shared_ptr<Expr> right{ equality() };
-    expr = std::make_shared<Expr::Binary>(expr, op, right);
+  if (match({ TokenType::Equal })) {
+    Token equals{ previous() };
+    std::shared_ptr<Expr> value{ assignment() };
+
+    if (std::dynamic_pointer_cast<Expr::Variable>(expr)) {
+      Token name{ std::dynamic_pointer_cast<Expr::Variable>(expr)->name() };
+      return std::make_shared<Expr::Assign>(name, value);
+    }
+
+    error(equals, "Invalid assignment target.");
   }
 
   return expr;

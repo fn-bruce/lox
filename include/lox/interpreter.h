@@ -16,6 +16,7 @@ class Interpreter :
 public:
   void interpret(std::vector<std::shared_ptr<Stmt>> statements);
 
+  std::any visit(const Expr::Assign& expr) override;
   std::any visit(const Expr::Binary& expr) override;
   std::any visit(const Expr::Grouping& expr) override;
   std::any visit(const Expr::Literal& expr) override;

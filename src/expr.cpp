@@ -4,6 +4,14 @@
 
 namespace lox {
 
+Expr::Assign::Assign(Token name, std::shared_ptr<Expr> value) :
+  name_{ name }, value_{ std::move(value) } {
+}
+
+std::any Expr::Assign::accept(Visitor<std::any>& visitor) const {
+  return visitor.visit(*this);
+}
+
 Expr::Binary::Binary(std::shared_ptr<Expr> left,
   Token op,
   std::shared_ptr<Expr> right) :

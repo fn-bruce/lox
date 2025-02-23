@@ -33,7 +33,7 @@ private:
   std::shared_ptr<Stmt> expression_statement();
 
   std::shared_ptr<Expr> expression();
-  std::shared_ptr<Expr> comma();
+  std::shared_ptr<Expr> assignment();
   std::shared_ptr<Expr> equality();
   std::shared_ptr<Expr> comparison();
   std::shared_ptr<Expr> term();

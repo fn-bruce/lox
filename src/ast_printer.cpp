@@ -12,6 +12,16 @@ std::string AstPrinter::print(std::shared_ptr<Expr> expr) {
   return std::any_cast<std::string>(expr->accept(*this));
 }
 
+std::any AstPrinter::visit(const Expr::Assign& expr) {
+  std::stringstream os{};
+  os << "(";
+  os << expr.name().lexeme();
+  os << " ";
+  os << std::any_cast<std::string>(expr.value()->accept(*this));
+  os << ")";
+  return os.str();
+}
+
 std::any AstPrinter::visit(const Expr::Binary& expr) {
   std::stringstream os{};
   os << "(";

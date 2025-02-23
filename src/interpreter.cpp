@@ -24,6 +24,12 @@ void Interpreter::interpret(std::vector<std::shared_ptr<Stmt>> statements) {
   }
 }
 
+std::any Interpreter::visit(const Expr::Assign& expr) {
+  std::any value{ evaluate(expr.value()) };
+  environment_->assign(expr.name(), value);
+  return value;
+}
+
 std::any Interpreter::visit(const Expr::Binary& expr) {
   std::any left{ evaluate(expr.left()) };
   std::any right{ evaluate(expr.right()) };

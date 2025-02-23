@@ -15,6 +15,7 @@ public:
   template<typename R>
   class Visitor;
 
+  class Assign;
   class Binary;
   class Grouping;
   class Literal;
@@ -27,11 +28,26 @@ public:
 template<typename R>
 class Expr::Visitor {
 public:
+  virtual R visit(const Assign& expr) = 0;
   virtual R visit(const Binary& expr) = 0;
   virtual R visit(const Grouping& expr) = 0;
   virtual R visit(const Literal& expr) = 0;
   virtual R visit(const Unary& expr) = 0;
   virtual R visit(const Variable& expr) = 0;
+};
+
+class Expr::Assign : public Expr {
+public:
+  Assign(Token name, std::shared_ptr<Expr> value);
+
+  std::any accept(Visitor<std::any>& visitor) const override;
+
+  const Token& name() const { return name_; }
+  std::shared_ptr<Expr> value() const { return value_; }
+
+private:
+  Token name_;
+  std::shared_ptr<Expr> value_{};
 };
 
 class Expr::Binary : public Expr {
