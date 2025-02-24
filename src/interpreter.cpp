@@ -135,6 +135,8 @@ std::any Interpreter::visit(const Expr::Unary& expr) {
 }
 
 std::any Interpreter::visit(const Expr::Variable& expr) {
+  std::any value{ environment_->get(expr.name()) };
+
   return environment_->get(expr.name());
 }
 
@@ -155,7 +157,7 @@ std::any Interpreter::visit(const Stmt::Print& stmt) {
 }
 
 std::any Interpreter::visit(const Stmt::Var& stmt) {
-  std::any value{};
+  std::any value{ std::monostate{} };
   if (stmt.initializer() != nullptr) {
     value = evaluate(stmt.initializer());
   }

@@ -16,8 +16,13 @@ void Environment::define(std::string name, std::any value) {
 }
 
 std::any Environment::get(const Token& name) const {
-  auto it = values_.find(std::string(name.lexeme()));
+  auto it{ values_.find(std::string(name.lexeme())) };
   if (it != values_.end()) {
+    if (it->second.type() == typeid(std::monostate)) {
+      throw RuntimeError(
+        name, "Uninitialized variable '" + std::string(name.lexeme()) + "'.");
+    }
+
     return it->second;
   }
 

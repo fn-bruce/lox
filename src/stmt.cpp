@@ -32,7 +32,6 @@ std::any Stmt::Print::accept(Visitor<std::any>& visitor) const {
 
 Stmt::Var::Var(Token name, std::shared_ptr<Expr> initializer) :
   name_{ name }, initializer_{ std::move(initializer) } {
-  assert(initializer_ != nullptr);
 }
 
 std::any Stmt::Var::accept(Visitor<std::any>& visitor) const {
