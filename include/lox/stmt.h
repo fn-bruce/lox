@@ -5,6 +5,7 @@
 
 #include <any>
 #include <memory>
+#include <vector>
 
 namespace lox {
 
@@ -15,6 +16,7 @@ public:
   template<typename R>
   class Visitor;
 
+  class Block;
   class Expression;
   class Print;
   class Var;
@@ -25,9 +27,24 @@ public:
 template<typename R>
 class Stmt::Visitor {
 public:
+  virtual R visit(const Stmt::Block& stmt) = 0;
   virtual R visit(const Stmt::Expression& stmt) = 0;
   virtual R visit(const Stmt::Print& stmt) = 0;
   virtual R visit(const Stmt::Var& stmt) = 0;
+};
+
+class Stmt::Block : public Stmt {
+public:
+  Block(const std::vector<std::shared_ptr<Stmt>>& statements);
+
+  std::any accept(Visitor<std::any>& visitor) const override;
+
+  const std::vector<std::shared_ptr<Stmt>>& statements() const {
+    return statements_;
+  }
+
+private:
+  std::vector<std::shared_ptr<Stmt>> statements_{};
 };
 
 class Stmt::Expression : public Stmt {

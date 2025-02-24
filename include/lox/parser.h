@@ -26,6 +26,7 @@ private:
   std::vector<Token> tokens_{};
   int current_{ 0 };
 
+  std::vector<std::shared_ptr<Stmt>> block();
   std::shared_ptr<Stmt> declaration();
   std::shared_ptr<Stmt> var_declaration();
   std::shared_ptr<Stmt> statement();

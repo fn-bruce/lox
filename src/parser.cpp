@@ -27,6 +27,17 @@ Parser::ParseError::ParseError(const std::string& message) :
   std::runtime_error{ message } {
 }
 
+std::vector<std::shared_ptr<Stmt>> Parser::block() {
+  std::vector<std::shared_ptr<Stmt>> statements{};
+
+  while (!check(TokenType::RightBrace) && !is_at_end()) {
+    statements.emplace_back(declaration());
+  }
+
+  consume(TokenType::RightBrace, "Expect '}' after block.");
+  return statements;
+}
+
 std::shared_ptr<Stmt> Parser::declaration() {
   try {
     if (match({ TokenType::Var })) {
@@ -55,6 +66,10 @@ std::shared_ptr<Stmt> Parser::var_declaration() {
 std::shared_ptr<Stmt> Parser::statement() {
   if (match({ TokenType::Print })) {
     return print_statement();
+  }
+
+  if (match({ TokenType::LeftBrace })) {
+    return std::make_shared<Stmt::Block>(block());
   }
 
   return expression_statement();

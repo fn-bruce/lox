@@ -138,6 +138,11 @@ std::any Interpreter::visit(const Expr::Variable& expr) {
   return environment_->get(expr.name());
 }
 
+std::any Interpreter::visit(const Stmt::Block& stmt) {
+  execute_block(stmt.statements(), std::make_shared<Environment>(environment_));
+  return std::monostate{};
+}
+
 std::any Interpreter::visit(const Stmt::Expression& stmt) {
   evaluate(stmt.expression());
   return std::monostate{};
@@ -157,6 +162,22 @@ std::any Interpreter::visit(const Stmt::Var& stmt) {
 
   environment_->define(std::string(stmt.name().lexeme()), value);
   return std::monostate{};
+}
+
+void Interpreter::execute_block(
+  const std::vector<std::shared_ptr<Stmt>>& statements,
+  std::shared_ptr<Environment> environment) {
+  std::shared_ptr<Environment> previous{ environment_ };
+  try {
+    environment_ = environment;
+
+    for (auto statement : statements) {
+      execute(statement);
+    }
+  } catch (RuntimeError error) {
+  }
+
+  environment_ = previous;
 }
 
 void Interpreter::execute(std::shared_ptr<Stmt> stmt) {
