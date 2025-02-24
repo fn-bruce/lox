@@ -7,6 +7,8 @@ namespace lox {
 
 Interpreter Lox::interpretor{};
 
+bool Lox::is_repl_mode{};
+
 bool Lox::had_error{};
 
 bool Lox::had_runtime_error{};

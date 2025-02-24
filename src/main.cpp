@@ -50,6 +50,7 @@ void run_file(std::string path) {
 }
 
 void run_prompt() {
+  lox::Lox::is_repl_mode = true;
   std::cout << "lox v" << LOX_VERSION << '\n';
   std::string line{};
   while (true) {

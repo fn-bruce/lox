@@ -12,6 +12,8 @@ namespace lox {
 class Lox {
 public:
   static Interpreter interpretor;
+  static bool is_repl_mode;
+
   static bool had_error;
   static bool had_runtime_error;
 

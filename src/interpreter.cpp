@@ -146,7 +146,12 @@ std::any Interpreter::visit(const Stmt::Block& stmt) {
 }
 
 std::any Interpreter::visit(const Stmt::Expression& stmt) {
-  evaluate(stmt.expression());
+  auto value{ evaluate(stmt.expression()) };
+
+  if (Lox::is_repl_mode) {
+    std::cout << stringify(value) << '\n';
+  }
+
   return std::monostate{};
 }
 
