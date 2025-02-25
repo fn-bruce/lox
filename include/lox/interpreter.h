@@ -25,6 +25,7 @@ public:
 
   std::any visit(const Stmt::Block& stmt) override;
   std::any visit(const Stmt::Expression& stmt) override;
+  std::any visit(const Stmt::If& stmt) override;
   std::any visit(const Stmt::Print& stmt) override;
   std::any visit(const Stmt::Var& stmt) override;
 

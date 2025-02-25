@@ -18,6 +18,7 @@ public:
 
   class Block;
   class Expression;
+  class If;
   class Print;
   class Var;
 
@@ -29,6 +30,7 @@ class Stmt::Visitor {
 public:
   virtual R visit(const Stmt::Block& stmt) = 0;
   virtual R visit(const Stmt::Expression& stmt) = 0;
+  virtual R visit(const Stmt::If& stmt) = 0;
   virtual R visit(const Stmt::Print& stmt) = 0;
   virtual R visit(const Stmt::Var& stmt) = 0;
 };
@@ -57,6 +59,24 @@ public:
 
 private:
   std::shared_ptr<Expr> expression_{};
+};
+
+class Stmt::If : public Stmt {
+public:
+  If(std::shared_ptr<Expr> condition,
+    std::shared_ptr<Stmt> then_branch,
+    std::shared_ptr<Stmt> else_branch);
+
+  std::any accept(Visitor<std::any>& visitor) const override;
+
+  std::shared_ptr<Expr> condition() const { return condition_; }
+  std::shared_ptr<Stmt> then_branch() const { return then_branch_; }
+  std::shared_ptr<Stmt> else_branch() const { return else_branch_; }
+
+private:
+  std::shared_ptr<Expr> condition_{};
+  std::shared_ptr<Stmt> then_branch_{};
+  std::shared_ptr<Stmt> else_branch_{};
 };
 
 class Stmt::Print : public Stmt {

@@ -155,6 +155,16 @@ std::any Interpreter::visit(const Stmt::Expression& stmt) {
   return std::monostate{};
 }
 
+std::any Interpreter::visit(const Stmt::If& stmt) {
+  if (is_truthy(evaluate(stmt.condition()))) {
+    execute(stmt.then_branch());
+  } else if (stmt.else_branch() != nullptr) {
+    execute(stmt.else_branch());
+  }
+
+  return nullptr;
+}
+
 std::any Interpreter::visit(const Stmt::Print& stmt) {
   std::any value{ evaluate(stmt.expression()) };
   std::cout << stringify(value) << '\n';

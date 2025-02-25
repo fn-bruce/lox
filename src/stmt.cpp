@@ -21,6 +21,18 @@ std::any Stmt::Expression::accept(Visitor<std::any>& visitor) const {
   return visitor.visit(*this);
 }
 
+Stmt::If::If(std::shared_ptr<Expr> condition,
+  std::shared_ptr<Stmt> then_branch,
+  std::shared_ptr<Stmt> else_branch) :
+  condition_{ condition },
+  then_branch_{ then_branch },
+  else_branch_{ else_branch } {
+}
+
+std::any Stmt::If::accept(Visitor<std::any>& visitor) const {
+  return visitor.visit(*this);
+}
+
 Stmt::Print::Print(std::shared_ptr<Expr> expression) :
   expression_{ std::move(expression) } {
   assert(expression_ != nullptr);
