@@ -63,6 +63,18 @@ std::any AstPrinter::visit(const Expr::Literal& expr) {
   return os.str();
 }
 
+std::any AstPrinter::visit(const Expr::Logical& expr) {
+  std::stringstream os{};
+  os << "(";
+  os << expr.op().lexeme();
+  os << " ";
+  os << std::any_cast<std::string>(expr.left()->accept(*this));
+  os << " ";
+  os << std::any_cast<std::string>(expr.right()->accept(*this));
+  os << ")";
+  return os.str();
+}
+
 std::any AstPrinter::visit(const Expr::Unary& expr) {
   std::stringstream os{};
   os << "(";

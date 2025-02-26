@@ -20,6 +20,7 @@ public:
   std::any visit(const Expr::Binary& expr) override;
   std::any visit(const Expr::Grouping& expr) override;
   std::any visit(const Expr::Literal& expr) override;
+  std::any visit(const Expr::Logical& expr) override;
   std::any visit(const Expr::Unary& expr) override;
   std::any visit(const Expr::Variable& expr) override;
 

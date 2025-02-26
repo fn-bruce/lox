@@ -118,6 +118,20 @@ std::any Interpreter::visit(const Expr::Literal& expr) {
   return std::monostate{};
 }
 
+std::any Interpreter::visit(const Expr::Logical& expr) {
+  std::any left{ evaluate(expr.left()) };
+
+  if (expr.op().type() == TokenType::Or) {
+    if (is_truthy(left)) {
+      return left;
+    }
+  } else {
+    if (!is_truthy(left)) return left;
+  }
+
+  return evaluate(expr.right());
+}
+
 std::any Interpreter::visit(const Expr::Unary& expr) {
   std::any right{ evaluate(expr.right()) };
 

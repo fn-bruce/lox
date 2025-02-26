@@ -42,6 +42,16 @@ std::any Expr::Literal::accept(Visitor<std::any>& visitor) const {
   return visitor.visit(*this);
 }
 
+Expr::Logical::Logical(std::shared_ptr<Expr> left,
+  Token op,
+  std::shared_ptr<Expr> right) :
+  left_{ std::move(left) }, op_{ op }, right_{ std::move(right) } {
+}
+
+std::any Expr::Logical::accept(Visitor<std::any>& visitor) const {
+  return visitor.visit(*this);
+}
+
 Expr::Unary::Unary(Token op, std::shared_ptr<Expr> right) :
   op_{ op }, right_{ std::move(right) } {
   assert(right_ != nullptr);

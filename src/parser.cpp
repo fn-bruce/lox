@@ -110,7 +110,7 @@ std::shared_ptr<Expr> Parser::expression() {
 }
 
 std::shared_ptr<Expr> Parser::assignment() {
-  std::shared_ptr<Expr> expr{ equality() };
+  std::shared_ptr<Expr> expr{ _or() };
 
   if (match({ TokenType::Equal })) {
     Token equals{ previous() };
@@ -122,6 +122,30 @@ std::shared_ptr<Expr> Parser::assignment() {
     }
 
     error(equals, "Invalid assignment target.");
+  }
+
+  return expr;
+}
+
+std::shared_ptr<Expr> Parser::_or() {
+  std::shared_ptr<Expr> expr{ _and() };
+
+  while (match({ TokenType::Or })) {
+    Token op{ previous() };
+    std::shared_ptr<Expr> right{ _and() };
+    expr = std::make_shared<Expr::Logical>(expr, op, right);
+  }
+
+  return expr;
+}
+
+std::shared_ptr<Expr> Parser::_and() {
+  std::shared_ptr<Expr> expr{ equality() };
+
+  while (match({ TokenType::And })) {
+    Token op{ previous() };
+    std::shared_ptr<Expr> right{ equality() };
+    expr = std::make_shared<Expr::Logical>(expr, op, right);
   }
 
   return expr;
@@ -197,6 +221,10 @@ std::shared_ptr<Expr> Parser::primary() {
 
   if (match({ TokenType::True })) {
     return std::make_shared<Expr::Literal>(true);
+  }
+
+  if (match({ TokenType::Nil })) {
+    return std::make_shared<Expr::Literal>(std::monostate{});
   }
 
   if (match({ TokenType::Number, TokenType::String })) {
