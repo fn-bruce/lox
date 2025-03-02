@@ -63,6 +63,15 @@ std::shared_ptr<Stmt> Parser::var_declaration() {
   return std::make_shared<Stmt::Var>(name, initializer);
 }
 
+std::shared_ptr<Stmt> Parser::while_statement() {
+  consume(TokenType::LeftParen, "Expect '(' after 'while'.");
+  std::shared_ptr<Expr> condition{ expression() };
+  consume(TokenType::RightParen, "Expect ')' after condition.");
+  std::shared_ptr<Stmt> body{ statement() };
+
+  return std::make_shared<Stmt::While>(condition, body);
+}
+
 std::shared_ptr<Stmt> Parser::statement() {
   if (match({ TokenType::If })) {
     return if_statement();
@@ -70,6 +79,10 @@ std::shared_ptr<Stmt> Parser::statement() {
 
   if (match({ TokenType::Print })) {
     return print_statement();
+  }
+
+  if (match({ TokenType::While })) {
+    return while_statement();
   }
 
   if (match({ TokenType::LeftBrace })) {

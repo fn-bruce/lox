@@ -21,6 +21,7 @@ public:
   class If;
   class Print;
   class Var;
+  class While;
 
   virtual std::any accept(Visitor<std::any>& visitor) const = 0;
 };
@@ -33,6 +34,7 @@ public:
   virtual R visit(const Stmt::If& stmt) = 0;
   virtual R visit(const Stmt::Print& stmt) = 0;
   virtual R visit(const Stmt::Var& stmt) = 0;
+  virtual R visit(const Stmt::While& stmt) = 0;
 };
 
 class Stmt::Block : public Stmt {
@@ -103,6 +105,20 @@ public:
 private:
   Token name_;
   std::shared_ptr<Expr> initializer_{};
+};
+
+class Stmt::While : public Stmt {
+public:
+  While(std::shared_ptr<Expr> condition, std::shared_ptr<Stmt> body);
+
+  std::any accept(Visitor<std::any>& visitor) const override;
+
+  std::shared_ptr<Expr> condition() const { return condition_; };
+  std::shared_ptr<Stmt> body() const { return body_; };
+
+private:
+  std::shared_ptr<Expr> condition_{};
+  std::shared_ptr<Stmt> body_{};
 };
 
 }

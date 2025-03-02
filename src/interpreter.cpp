@@ -195,6 +195,13 @@ std::any Interpreter::visit(const Stmt::Var& stmt) {
   return std::monostate{};
 }
 
+std::any Interpreter::visit(const Stmt::While& stmt) {
+  while (is_truthy(evaluate(stmt.condition()))) {
+    execute(stmt.body());
+  }
+  return std::monostate{};
+}
+
 void Interpreter::execute_block(
   const std::vector<std::shared_ptr<Stmt>>& statements,
   std::shared_ptr<Environment> environment) {

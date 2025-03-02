@@ -50,4 +50,15 @@ std::any Stmt::Var::accept(Visitor<std::any>& visitor) const {
   return visitor.visit(*this);
 }
 
+Stmt::While::While(std::shared_ptr<Expr> condition,
+  std::shared_ptr<Stmt> body) :
+  condition_{ std::move(condition) }, body_{ std::move(body) } {
+  assert(condition_ != nullptr);
+  assert(body_ != nullptr);
+}
+
+std::any Stmt::While::accept(Visitor<std::any>& visitor) const {
+  return visitor.visit(*this);
+}
+
 }

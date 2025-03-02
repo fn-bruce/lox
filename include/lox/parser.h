@@ -29,6 +29,7 @@ private:
   std::vector<std::shared_ptr<Stmt>> block();
   std::shared_ptr<Stmt> declaration();
   std::shared_ptr<Stmt> var_declaration();
+  std::shared_ptr<Stmt> while_statement();
   std::shared_ptr<Stmt> statement();
   std::shared_ptr<Stmt> if_statement();
   std::shared_ptr<Stmt> print_statement();
